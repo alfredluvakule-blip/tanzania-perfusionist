@@ -5,7 +5,8 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, BookOpen, History, Newspaper, Users } from "lucide-react";
 import { FlowLines } from "./FlowLines";
-import { HeartLungMachine } from "./HeartLungMachine";
+import Image from "next/image";
+import { HERO_IMAGE } from "@/lib/site";
 
 const CTAS = [
   { href: "/news", label: "Explore Perfusion News", icon: Newspaper, primary: true },
@@ -14,21 +15,21 @@ const CTAS = [
   { href: "/community#join", label: "Join the Community", icon: Users },
 ];
 
-export function Hero({ heroImage }: { heroImage?: string | null }) {
+export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const artY = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
+  const photoScale = useTransform(scrollYProgress, [0, 1], [1.04, 1.16]);
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={ref} className="noise relative flex min-h-[100svh] items-center overflow-hidden bg-navy-950 pt-20 text-white">
+    <section ref={ref} className="noise relative flex min-h-[100svh] items-center lg:min-h-[100svh] overflow-hidden bg-navy-950 pt-20 text-white">
       {/* background: optional uploaded photo/video still, plus gradients and flowing lines */}
       <motion.div style={{ y: bgY }} className="absolute inset-0">
-        {heroImage && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
-        )}
+        {/* the same photo, blurred and darkened, as a cinematic backdrop */}
+        <Image src={HERO_IMAGE.src} alt="" fill priority sizes="100vw" className="scale-110 object-cover opacity-25 blur-2xl" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-950/40" />
         <div className="absolute inset-0 bg-[radial-gradient(80%_60%_at_70%_40%,rgba(8,145,178,.35),transparent_60%),radial-gradient(50%_50%_at_10%_90%,rgba(225,29,72,.18),transparent_60%)]" />
         <FlowLines className="absolute inset-0 h-full w-full" />
       </motion.div>
@@ -66,10 +67,31 @@ export function Hero({ heroImage }: { heroImage?: string | null }) {
           </motion.div>
         </motion.div>
 
-        <motion.div style={{ y: artY }} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, duration: 1 }} className="relative">
-          <div className="absolute inset-8 rounded-full bg-teal-500/20 blur-3xl" />
-          <HeartLungMachine className="relative w-full drop-shadow-2xl" />
-        </motion.div>
+        <motion.figure
+          style={{ y: artY }} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto w-full max-w-sm lg:max-w-md"
+        >
+          <div className="absolute -inset-6 rounded-[2.5rem] bg-teal-500/20 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-white/15">
+            <motion.div style={{ scale: photoScale }} className="relative aspect-[3/4]">
+              <Image src={HERO_IMAGE.src} alt={HERO_IMAGE.alt} fill priority sizes="(min-width:1024px) 28rem, 90vw" className="object-cover" />
+            </motion.div>
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-transparent" />
+            <FlowLines className="pointer-events-none absolute inset-0 h-full w-full opacity-50 mix-blend-screen" />
+            <figcaption className="absolute inset-x-0 bottom-0 flex items-center gap-2 p-5 text-sm font-medium text-white">
+              <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-pulse-500 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-pulse-500" /></span>
+              {HERO_IMAGE.caption}
+            </figcaption>
+          </div>
+          {/* floating accent chip */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 }}
+            className="absolute -left-6 top-10 hidden rounded-2xl bg-navy-950/80 px-4 py-3 text-xs text-navy-100 shadow-xl ring-1 ring-white/10 backdrop-blur sm:block"
+          >
+            <span className="block font-display text-lg font-semibold text-teal-300">Since 1953</span>
+            the heart-lung machine
+          </motion.div>
+        </motion.figure>
       </div>
 
       <motion.a href="#latest" style={{ opacity: fade }} className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs text-navy-200 sm:flex">
