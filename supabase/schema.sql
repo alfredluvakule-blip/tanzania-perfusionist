@@ -212,11 +212,13 @@ create table if not exists public.media_items (
   kind text not null check (kind in ('video', 'photo', 'infographic')),
   category text not null,
   topic text not null,
-  year int not null,
+  year int,  -- null when unknown; never guess a date
   url text,
   thumbnail_url text,
   credit text
 );
+
+alter table public.media_items alter column year drop not null;
 
 create table if not exists public.events (
   id uuid primary key default gen_random_uuid(),

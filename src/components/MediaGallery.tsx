@@ -31,10 +31,10 @@ function youtubeThumb(url?: string | null) {
   return m ? `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` : null;
 }
 
-export function MediaGallery({ items, limit }: { items: MediaItem[]; limit?: number }) {
+export function MediaGallery({ items, limit, initialCategory = "All" }: { items: MediaItem[]; limit?: number; initialCategory?: string }) {
   const categories = useMemo(() => ["All", ...Array.from(new Set(items.map((i) => i.category)))], [items]);
-  const years = useMemo(() => ["All", ...Array.from(new Set(items.map((i) => String(i.year)))).sort().reverse()], [items]);
-  const [cat, setCat] = useState("All");
+  const years = useMemo(() => ["All", ...Array.from(new Set(items.filter((i) => i.year).map((i) => String(i.year)))).sort().reverse()], [items]);
+  const [cat, setCat] = useState(initialCategory);
   const [year, setYear] = useState("All");
   const [open, setOpen] = useState<MediaItem | null>(null);
 
@@ -94,7 +94,7 @@ export function MediaGallery({ items, limit }: { items: MediaItem[]; limit?: num
                 </span>
                 <span className="absolute inset-x-0 bottom-0 p-4">
                   <span className="block font-medium text-white">{m.title}</span>
-                  <span className="text-xs text-navy-200">{m.topic} · {m.year}</span>
+                  <span className="text-xs text-navy-200">{m.topic}{m.year ? ` · ${m.year}` : ""}</span>
                 </span>
               </motion.button>
             );
@@ -127,7 +127,7 @@ export function MediaGallery({ items, limit }: { items: MediaItem[]; limit?: num
               </div>
               <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2 text-white">
                 <p className="font-display text-xl">{open.title}</p>
-                <p className="text-sm text-navy-300">{open.category} · {open.topic} · {open.year}{open.credit && ` · ${open.credit}`}</p>
+                <p className="text-sm text-navy-300">{[open.category, open.topic, open.year, open.credit].filter(Boolean).join(" · ")}</p>
               </div>
             </motion.div>
           </motion.div>

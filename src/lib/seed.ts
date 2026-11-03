@@ -20,6 +20,7 @@ import type {
   Opportunity,
   Publication,
 } from "./types";
+import { THEATRE_PHOTOS } from "./site";
 
 const STONEY = {
   label:
@@ -681,6 +682,15 @@ export const caseReports: CaseReport[] = [
 ];
 
 export const mediaItems: MediaItem[] = [
+  ...THEATRE_PHOTOS.map((p, i) => ({
+    id: `photo-${i + 1}`,
+    title: p.caption,
+    kind: "photo" as const,
+    category: "In the theatre" as const,
+    topic: "Clinical practice",
+    url: p.src,
+    credit: "Photo: TaCPA",
+  })),
   { id: "md-1", title: "Heart-lung machine demonstration", kind: "video", category: "Demonstrations", year: 2026, topic: "CPB", is_placeholder: true },
   { id: "md-2", title: "CPB circuit setup tutorial", kind: "video", category: "Tutorials", year: 2026, topic: "CPB", is_placeholder: true },
   { id: "md-3", title: "Perfusionist interview", kind: "video", category: "Interviews", year: 2026, topic: "Careers", is_placeholder: true },

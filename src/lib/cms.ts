@@ -121,9 +121,9 @@ export const COLLECTIONS: Collection[] = [
     fields: [
       { name: "title", label: "Title", type: "text", required: true },
       { name: "kind", label: "Type", type: "select", options: ["video", "photo", "infographic"], required: true },
-      { name: "category", label: "Category", type: "select", options: ["Education", "Demonstrations", "Tutorials", "Interviews", "Conferences", "Events", "Historical", "Animations", "Infographics"], required: true },
+      { name: "category", label: "Category", type: "select", options: ["In the theatre", "Education", "Demonstrations", "Tutorials", "Interviews", "Conferences", "Events", "Historical", "Animations", "Infographics"], required: true },
       { name: "topic", label: "Topic", type: "text", required: true },
-      { name: "year", label: "Year", type: "number", required: true },
+      { name: "year", label: "Year (leave blank if unknown)", type: "number" },
       { name: "url", label: "YouTube / Vimeo link, or photo", type: "url", help: "Paste a video link, or upload a photo below." },
       { name: "thumbnail_url", label: "Photo / thumbnail upload", type: "image" },
       { name: "credit", label: "Credit / licence", type: "text", required: true },

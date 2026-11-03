@@ -6,3 +6,12 @@ export const HERO_IMAGE = {
   alt: "Two perfusionists in green scrubs operating a heart-lung machine in a cardiac operating theatre",
   caption: "Perfusionists at the heart-lung machine",
 };
+
+/** Photographs from TaCPA members. Publish only with consent from everyone shown. */
+export const THEATRE_PHOTOS = [
+  { src: "/images/gallery/priming-circuit.webp", width: 1050, height: 1080, caption: "Priming the CPB circuit", alt: "A perfusionist in maroon scrubs and a teal cap priming the tubing of a cardiopulmonary bypass circuit" },
+  { src: "/images/gallery/cardiac-surgery.webp", width: 710, height: 559, caption: "Cardiac surgery in progress", alt: "Surgeons in caps, masks and loupes operating during open-heart surgery" },
+  { src: "/images/gallery/primed-cpb-circuit.webp", width: 896, height: 1119, caption: "A primed CPB circuit", alt: "Close-up of a heart-lung machine with blood-filled red tubing, pump heads and oxygenator" },
+  { src: "/images/gallery/hlm-console.webp", width: 563, height: 553, caption: "At the heart-lung machine", alt: "A perfusionist in green scrubs working behind the reservoir and tubing of a heart-lung machine" },
+  { src: "/images/gallery/perfusion-record.webp", width: 960, height: 1280, caption: "Recording the perfusion chart", alt: "A perfusionist writing the perfusion record while colleagues in scrubs look on" },
+] as const;
