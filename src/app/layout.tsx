@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: "Tanzania Perfusionist", template: "%s | Tanzania Perfusionist" },
   description:
-    "Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care. News, research, case reports, history and community for perfusion professionals in Tanzania and beyond.",
+    "Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care. Wataalamu wa Kusimamisha na Kuamsha Moyo. News, research, case reports, history and community for perfusion professionals in Tanzania and beyond.",
   openGraph: {
     type: "website",
     siteName: "Tanzania Perfusionist",
