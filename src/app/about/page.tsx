@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BookOpen, Camera, Globe2, HeartPulse, History, ShieldCheck, Users } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
+import { SWAHILI_NAME } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About", description: "About Tanzania Perfusionist: mission, values and editorial standards." };
 
@@ -25,6 +26,7 @@ export default function About() {
           <Reveal>
             <h2 className="h-section">Our mission</h2>
             <div className="prose mt-4 max-w-none text-navy-700">
+              <p>In Kiswahili we are <em lang="sw">{SWAHILI_NAME}</em>: the specialists who stop and restart the heart.</p>
               <p>Perfusionists run the heart-lung machine that keeps patients alive during cardiac surgery, and increasingly manage ECMO and other extracorporeal therapies. Their work is highly specialised and often invisible.</p>
               <p>Tanzania Perfusionist exists to document the experiences of perfusionists, support learning and research, and strengthen the future of perfusion practice in Tanzania and across Africa.</p>
             </div>

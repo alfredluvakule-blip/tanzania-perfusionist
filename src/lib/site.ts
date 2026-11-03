@@ -15,3 +15,6 @@ export const THEATRE_PHOTOS = [
   { src: "/images/gallery/hlm-console.webp", width: 563, height: 553, caption: "At the heart-lung machine", alt: "A perfusionist in green scrubs working behind the reservoir and tubing of a heart-lung machine" },
   { src: "/images/gallery/perfusion-record.webp", width: 960, height: 1280, caption: "Recording the perfusion chart", alt: "A perfusionist writing the perfusion record while colleagues in scrubs look on" },
 ] as const;
+
+/** "Perfusionists" in Kiswahili: literally, specialists who stop and restart the heart. */
+export const SWAHILI_NAME = "Wataalamu wa Kusimamisha na Kuamsha Moyo";

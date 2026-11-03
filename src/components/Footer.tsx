@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 import { NAV, NAV_MORE } from "@/lib/nav";
 import { NewsletterForm } from "./NewsletterForm";
+import { SWAHILI_NAME } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -10,6 +11,7 @@ export function Footer() {
       <div className="container-x grid gap-12 py-16 lg:grid-cols-[1.3fr_1fr_1fr_1.4fr]">
         <div>
           <Logo light large />
+          <p lang="sw" className="mt-3 max-w-xs font-display text-sm italic text-teal-300">{SWAHILI_NAME}</p>
           <p className="mt-4 max-w-xs text-sm text-navy-200">
             Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care.
           </p>

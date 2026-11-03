@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, BookOpen, History, Newspaper, Users } from "lucide-react";
 import { FlowLines } from "./FlowLines";
 import Image from "next/image";
-import { HERO_IMAGE } from "@/lib/site";
+import { HERO_IMAGE, SWAHILI_NAME } from "@/lib/site";
 
 const CTAS = [
   { href: "/news", label: "Explore Perfusion News", icon: Newspaper, primary: true },
@@ -48,7 +48,18 @@ export function Hero() {
             TANZANIA
             <span className="block bg-gradient-to-r from-teal-300 via-teal-400 to-cyan-200 bg-clip-text text-transparent">PERFUSIONIST</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="mt-6 max-w-xl text-lg text-navy-100 sm:text-xl">
+          <motion.p
+            lang="sw"
+            initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35, duration: 0.7 }}
+            className="mt-4 flex items-center gap-3 font-display text-lg font-medium italic text-teal-200 sm:text-2xl"
+          >
+            <svg viewBox="0 0 48 16" className="h-4 w-12 shrink-0" aria-hidden="true">
+              <path d="M0 8h14l3-6 5 12 4-9 3 3h19" fill="none" stroke="#e11d48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                className="flow-line" style={{ strokeDasharray: "60 20", animationDuration: "2.4s" }} />
+            </svg>
+            {SWAHILI_NAME}
+          </motion.p>
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="mt-5 max-w-xl text-lg text-navy-100 sm:text-xl">
             Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care.
           </motion.p>
           <motion.div
