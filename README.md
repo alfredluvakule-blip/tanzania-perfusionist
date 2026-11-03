@@ -56,3 +56,9 @@ src/lib/content.ts  data access (Supabase, with seed fallback)
 supabase/           schema.sql (tables, RLS, triggers, storage) and seed.sql
 scripts/            generate-seed-sql.mjs (rebuild seed.sql from seed.ts)
 ```
+
+## Search engines
+
+- `sitemap.xml` and `robots.txt` use the live address automatically (Vercel's production domain, or `NEXT_PUBLIC_SITE_URL` if you set a custom domain).
+- Every page has a canonical link, and the homepage includes Organization/WebSite structured data (TaCPA, Kiswahili name).
+- Google Search Console: add the site as a **URL prefix** property, choose the **HTML tag** method, put the code in the `GOOGLE_SITE_VERIFICATION` environment variable on Vercel, redeploy, press Verify, then submit `sitemap.xml`.

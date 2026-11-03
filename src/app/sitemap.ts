@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCases, getNews } from "@/lib/content";
 
-const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+import { SITE_URL as base } from "@/lib/site";
 const STATIC = ["", "/about", "/news", "/legacy", "/history", "/research", "/cases", "/media", "/community", "/events", "/training", "/contact", "/guidelines"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
