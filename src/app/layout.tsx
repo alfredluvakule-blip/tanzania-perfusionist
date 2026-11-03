@@ -14,6 +14,18 @@ import { SITE_URL, SWAHILI_NAME } from "@/lib/site";
 
 const siteUrl = SITE_URL;
 
+/**
+ * Google Search Console code. Accepts either the bare code or the whole
+ * <meta name="google-site-verification" content="..."> tag pasted from Search Console.
+ */
+function parseGoogleVerification(raw?: string) {
+  if (!raw) return undefined;
+  const fromTag = raw.match(/content\s*=\s*["']([^"']+)["']/i)?.[1];
+  const code = (fromTag ?? raw).trim().replace(/^["']+|["']+$/g, "").trim();
+  return code || undefined;
+}
+const googleCode = parseGoogleVerification(process.env.GOOGLE_SITE_VERIFICATION);
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: "Tanzania Perfusionists", template: "%s | Tanzania Perfusionists" },
@@ -33,8 +45,8 @@ export const metadata: Metadata = {
   applicationName: "Tanzania Perfusionists",
   keywords: ["Tanzania Perfusionists", "Tanzania Perfusionist", "perfusionist Tanzania", "perfusion", "cardiopulmonary bypass", "ECMO", "TaCPA", "Tanzania Cardiovascular Perfusion Association", SWAHILI_NAME],
   robots: { index: true, follow: true },
-  // Paste the code from Google Search Console into the GOOGLE_SITE_VERIFICATION env var on Vercel.
-  verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
+  // GOOGLE_SITE_VERIFICATION on Vercel: the code from Search Console (the whole meta tag also works).
+  verification: googleCode ? { google: googleCode } : undefined,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
