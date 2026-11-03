@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Award, BookOpen, Camera, GraduationCap, HeartHandshake, MessagesSquare, PenLine } from "lucide-react";
 import { Hero } from "@/components/Hero";
+import { PhotoStory } from "@/components/PhotoStory";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import { CaseCard, LegacyCard, NewsCard, PublicationCard } from "@/components/Cards";
@@ -32,6 +33,8 @@ export default async function Home() {
           <AnimatedStat value={pubs.filter((p) => p.content_kind === "original").length} label="Linked original publications" />
         </div>
       </section>
+
+      <PhotoStory />
 
       {/* B. Latest news */}
       <section id="latest" className="container-x scroll-mt-20 py-20 sm:py-24">

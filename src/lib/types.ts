@@ -133,6 +133,7 @@ export interface MediaItem {
   title: string;
   kind: "video" | "photo" | "infographic";
   category:
+    | "In the theatre"
     | "Education"
     | "Demonstrations"
     | "Tutorials"
@@ -142,7 +143,8 @@ export interface MediaItem {
     | "Historical"
     | "Animations"
     | "Infographics";
-  year: number;
+  /** Leave empty when the year is not known; never guess. */
+  year?: number | null;
   topic: string;
   /** For videos: a YouTube or Vimeo URL. For photos: an image URL. */
   url?: string | null;
