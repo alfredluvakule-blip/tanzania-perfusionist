@@ -24,7 +24,7 @@ export function Logo({ light = false, large = false }: { light?: boolean; large?
         <span className={`block font-display text-[15px] font-bold tracking-[0.14em] ${light ? "text-white" : "text-navy-900"}`}>
           TANZANIA
         </span>
-        <span className="block text-[10.5px] font-semibold tracking-[0.32em] text-teal-500">PERFUSIONIST</span>
+        <span className="block text-[10.5px] font-semibold tracking-[0.32em] text-teal-500">PERFUSIONISTS</span>
       </span>
     </span>
   );

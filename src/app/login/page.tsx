@@ -44,7 +44,7 @@ export default function Login() {
       <div className="relative w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl">
         <LogoMark className="h-12 w-12" />
         <h1 className="mt-4 font-display text-2xl font-semibold">{mode === "signin" ? "Welcome back" : "Join the community"}</h1>
-        <p className="mt-1 text-sm text-navy-600">{mode === "signin" ? "Sign in to your Tanzania Perfusionist account." : "Create a member account to build your profile and submit content."}</p>
+        <p className="mt-1 text-sm text-navy-600">{mode === "signin" ? "Sign in to your Tanzania Perfusionists account." : "Create a member account to build your profile and submit content."}</p>
         <form onSubmit={submit} className="mt-6 space-y-4">
           {mode === "signup" && (
             <div><label className="label" htmlFor="name">Full name</label><input id="name" required className="input" value={name} onChange={(e) => setName(e.target.value)} /></div>

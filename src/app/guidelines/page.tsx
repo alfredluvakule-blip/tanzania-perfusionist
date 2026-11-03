@@ -40,7 +40,7 @@ const SECTIONS: [string, string, string[]][] = [
 export default function Guidelines() {
   return (
     <>
-      <PageHeader eyebrow="Policies" title="Conduct & publishing policy" intro="How we keep Tanzania Perfusionist accurate, respectful and safe." />
+      <PageHeader eyebrow="Policies" title="Conduct & publishing policy" intro="How we keep Tanzania Perfusionists accurate, respectful and safe." />
       <section className="container-x max-w-3xl space-y-6 py-14">
         {SECTIONS.map(([id, title, items]) => (
           <div key={id} id={id} className="card scroll-mt-24 p-6">

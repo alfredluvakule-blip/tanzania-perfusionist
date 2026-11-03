@@ -29,7 +29,7 @@ export function Header() {
       }`}
     >
       <div className="container-x flex h-16 items-center justify-between gap-4">
-        <Link href="/" aria-label="Tanzania Perfusionist home">
+        <Link href="/" aria-label="Tanzania Perfusionists home">
           <Logo light />
         </Link>
 

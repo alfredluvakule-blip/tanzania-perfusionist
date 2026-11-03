@@ -46,3 +46,13 @@ body {
     transition-duration: .001ms !important;
   }
 }
+
+/* A pulse travelling along the duties circuit line */
+.duty-travel { animation: duty-travel 3.2s cubic-bezier(.45,0,.55,1) infinite; }
+@keyframes duty-travel {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .duty-travel { display: none; } }

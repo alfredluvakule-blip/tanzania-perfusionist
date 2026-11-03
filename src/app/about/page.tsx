@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { SWAHILI_NAME } from "@/lib/site";
 
-export const metadata: Metadata = { title: "About", description: "About Tanzania Perfusionist: mission, values and editorial standards." };
+export const metadata: Metadata = { title: "About", description: "About Tanzania Perfusionists: mission, values and editorial standards." };
 
 const PILLARS = [
   { icon: Globe2, t: "Medical news platform", d: "Local and international perfusion news, linked to original sources." },
@@ -19,7 +19,7 @@ const PILLARS = [
 export default function About() {
   return (
     <>
-      <PageHeader eyebrow="About Tanzania Perfusionist" title="A trusted digital home for perfusion professionals"
+      <PageHeader eyebrow="About Tanzania Perfusionists" title="A trusted digital home for perfusion professionals"
         intro="We connect perfusionists, cardiovascular professionals, students and researchers in Tanzania and beyond, preserve the history of our profession and share current scientific knowledge." />
       <section className="container-x py-20">
         <div className="grid gap-12 lg:grid-cols-2">
@@ -28,7 +28,7 @@ export default function About() {
             <div className="prose mt-4 max-w-none text-navy-700">
               <p>In Kiswahili we are <em lang="sw">{SWAHILI_NAME}</em>: the specialists who stop and restart the heart.</p>
               <p>Perfusionists run the heart-lung machine that keeps patients alive during cardiac surgery, and increasingly manage ECMO and other extracorporeal therapies. Their work is highly specialised and often invisible.</p>
-              <p>Tanzania Perfusionist exists to document the experiences of perfusionists, support learning and research, and strengthen the future of perfusion practice in Tanzania and across Africa.</p>
+              <p>Tanzania Perfusionists exists to document the experiences of perfusionists, support learning and research, and strengthen the future of perfusion practice in Tanzania and across Africa.</p>
             </div>
           </Reveal>
           <Reveal delay={0.1} className="card p-8">

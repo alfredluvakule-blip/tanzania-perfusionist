@@ -10,6 +10,7 @@ export const NAV = [
 
 export const NAV_MORE = [
   { href: "/about", label: "About" },
+  { href: "/duties", label: "Duties of a Perfusionist" },
   { href: "/events", label: "Events & Conferences" },
   { href: "/training", label: "Training & Careers" },
   { href: "/contact", label: "Contact Us" },

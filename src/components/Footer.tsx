@@ -43,7 +43,7 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col gap-2 py-6 text-xs text-navy-300 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} Tanzania Perfusionist.</p>
+          <p>© {new Date().getFullYear()} Tanzania Perfusionists.</p>
           <p className="max-w-2xl sm:text-right">
             Educational content for healthcare professionals. It does not replace institutional protocols or clinical judgement.
           </p>

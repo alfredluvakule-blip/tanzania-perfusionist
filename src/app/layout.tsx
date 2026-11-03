@@ -16,22 +16,22 @@ const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "Tanzania Perfusionist", template: "%s | Tanzania Perfusionist" },
+  title: { default: "Tanzania Perfusionists", template: "%s | Tanzania Perfusionists" },
   description:
     "Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care. Wataalamu wa Kusimamisha na Kuamsha Moyo. News, research, case reports, history and community for perfusion professionals in Tanzania and beyond.",
   openGraph: {
     type: "website",
-    siteName: "Tanzania Perfusionist",
+    siteName: "Tanzania Perfusionists",
     url: "/",
     locale: "en_TZ",
-    title: "Tanzania Perfusionist",
+    title: "Tanzania Perfusionists",
     description: "Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care.",
     images: [{ url: "/images/hero-perfusionists.webp", width: 960, height: 1280, alt: "Perfusionists at the heart-lung machine" }],
   },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "./" },
-  applicationName: "Tanzania Perfusionist",
-  keywords: ["Tanzania Perfusionist", "perfusionist Tanzania", "perfusion", "cardiopulmonary bypass", "ECMO", "TaCPA", "Tanzania Cardiovascular Perfusion Association", SWAHILI_NAME],
+  applicationName: "Tanzania Perfusionists",
+  keywords: ["Tanzania Perfusionists", "Tanzania Perfusionist", "perfusionist Tanzania", "perfusion", "cardiopulmonary bypass", "ECMO", "TaCPA", "Tanzania Cardiovascular Perfusion Association", SWAHILI_NAME],
   robots: { index: true, follow: true },
   // Paste the code from Google Search Console into the GOOGLE_SITE_VERIFICATION env var on Vercel.
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
