@@ -7,6 +7,24 @@ export const HERO_IMAGE = {
   caption: "Perfusionists at the heart-lung machine",
 };
 
+/**
+ * Cinematic films cut from TaCPA members' own theatre footage and photographs
+ * (everyone shown has consented). Files live in /public/videos.
+ */
+export const HERO_VIDEO = {
+  mp4: "/videos/hero-loop.mp4",
+  poster: "/videos/hero-loop-poster.jpg",
+  caption: "Inside the cardiac theatre",
+  alt: "A short silent film loop: perfusionists at the heart-lung machine, blood flowing through the bypass circuit, pump heads and reservoirs",
+};
+
+export const PROMO_FILM = {
+  title: "Tanzania Perfusionists: the film",
+  src: "/videos/tanzania-perfusionists-film-720p.mp4",
+  poster: "/videos/tanzania-perfusionists-film-poster.jpg",
+  credit: "Footage and photos: TaCPA members",
+};
+
 /** Photographs from TaCPA members. Publish only with consent from everyone shown. */
 export const THEATRE_PHOTOS = [
   { src: "/images/gallery/priming-circuit.webp", width: 1050, height: 1080, caption: "Priming the CPB circuit", alt: "A perfusionist in maroon scrubs and a teal cap priming the tubing of a cardiopulmonary bypass circuit" },
