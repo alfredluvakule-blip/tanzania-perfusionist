@@ -9,10 +9,11 @@ export function Footer() {
       <div className="pointer-events-none absolute -top-40 right-0 h-80 w-80 rounded-full bg-teal-500/10 blur-3xl" />
       <div className="container-x grid gap-12 py-16 lg:grid-cols-[1.3fr_1fr_1fr_1.4fr]">
         <div>
-          <Logo light />
+          <Logo light large />
           <p className="mt-4 max-w-xs text-sm text-navy-200">
             Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care.
           </p>
+          <p className="mt-3 max-w-xs text-xs text-navy-300">Tanzania Cardiovascular Perfusion Association (TaCPA)</p>
         </div>
         <div>
           <h3 className="text-sm font-semibold text-white">Explore</h3>
