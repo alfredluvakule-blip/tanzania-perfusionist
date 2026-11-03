@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Award, BookOpen, Camera, GraduationCap, HeartHandshake, MessagesSquare, PenLine } from "lucide-react";
 import { Hero } from "@/components/Hero";
 import { PhotoStory } from "@/components/PhotoStory";
+import { FilmFeature } from "@/components/FilmFeature";
 import { DutiesOverview } from "@/components/DutiesFlow";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
@@ -62,6 +63,16 @@ export default async function Home() {
       </section>
 
       <PhotoStory />
+
+      {/* The film: cut from members' own theatre footage */}
+      <section id="film" className="relative scroll-mt-20 bg-navy-950 pb-20 text-white sm:pb-28">
+        <div className="container-x">
+          <SectionHeading dark eyebrow="Watch the film" title="One minute inside the cardiac theatre"
+            intro="Filmed by Tanzanian perfusionists at the heart-lung machine. Share it with colleagues, students and anyone curious about the people who keep blood flowing during open-heart surgery."
+            href="/media" cta="More in the Media Hub" />
+          <FilmFeature dark />
+        </div>
+      </section>
 
       {/* What a perfusionist does */}
       <section className="bg-white py-20 sm:py-24">

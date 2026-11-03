@@ -6,7 +6,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, BookOpen, History, Newspaper, Users } from "lucide-react";
 import { FlowLines } from "./FlowLines";
 import Image from "next/image";
-import { HERO_IMAGE, SWAHILI_NAME } from "@/lib/site";
+import { HERO_IMAGE, HERO_VIDEO, SWAHILI_NAME } from "@/lib/site";
+import { HeroVideo } from "./HeroVideo";
 
 const CTAS = [
   { href: "/news", label: "Explore Perfusion News", icon: Newspaper, primary: true },
@@ -85,13 +86,13 @@ export function Hero() {
           <div className="absolute -inset-6 rounded-[2.5rem] bg-teal-500/20 blur-3xl" />
           <div className="relative overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-white/15">
             <motion.div style={{ scale: photoScale }} className="relative aspect-[3/4]">
-              <Image src={HERO_IMAGE.src} alt={HERO_IMAGE.alt} fill priority sizes="(min-width:1024px) 28rem, 90vw" className="object-cover" />
+              <HeroVideo className="h-full w-full" />
             </motion.div>
             <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-transparent" />
             <FlowLines className="pointer-events-none absolute inset-0 h-full w-full opacity-50 mix-blend-screen" />
             <figcaption className="absolute inset-x-0 bottom-0 flex items-center gap-2 p-5 text-sm font-medium text-white">
               <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-pulse-500 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-pulse-500" /></span>
-              {HERO_IMAGE.caption}
+              {HERO_VIDEO.caption}
             </figcaption>
           </div>
           {/* floating accent chip */}
