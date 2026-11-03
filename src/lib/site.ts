@@ -18,3 +18,14 @@ export const THEATRE_PHOTOS = [
 
 /** "Perfusionists" in Kiswahili: literally, specialists who stop and restart the heart. */
 export const SWAHILI_NAME = "Wataalamu wa Kusimamisha na Kuamsha Moyo";
+
+/**
+ * Public address of the site, used for the sitemap, robots.txt, canonical links and
+ * social previews. Set NEXT_PUBLIC_SITE_URL when you add a custom domain; otherwise
+ * Vercel's production domain is used, falling back to the current live address.
+ */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
+  "https://tanzania-perfusionist.vercel.app"
+).replace(/\/$/, "");

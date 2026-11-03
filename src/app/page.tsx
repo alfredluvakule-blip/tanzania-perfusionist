@@ -11,6 +11,30 @@ import { AnimatedStat } from "@/components/AnimatedStat";
 import { Disclaimer } from "@/components/Disclaimer";
 import { getCases, getLegacy, getMedia, getMilestones, getNews, getPublications } from "@/lib/content";
 import { RESEARCH_CATEGORIES } from "@/lib/types";
+import { SITE_URL, SWAHILI_NAME } from "@/lib/site";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#org`,
+      name: "Tanzania Cardiovascular Perfusion Association",
+      alternateName: ["TaCPA", "Tanzania Perfusionist", SWAHILI_NAME],
+      url: SITE_URL,
+      logo: `${SITE_URL}/images/tacpa-logo.webp`,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: "Tanzania Perfusionist",
+      alternateName: SWAHILI_NAME,
+      url: SITE_URL,
+      publisher: { "@id": `${SITE_URL}/#org` },
+      potentialAction: { "@type": "SearchAction", target: `${SITE_URL}/search?q={search_term_string}`, "query-input": "required name=search_term_string" },
+    },
+  ],
+};
 
 export const revalidate = 300;
 
@@ -22,6 +46,7 @@ export default async function Home() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Hero />
 
       {/* Stats band: every number is derived from verifiable facts or from the site's own content */}

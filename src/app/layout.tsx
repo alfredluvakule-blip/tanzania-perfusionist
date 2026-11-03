@@ -10,7 +10,9 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const display = Sora({ subsets: ["latin"], variable: "--font-display", display: "swap" });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+import { SITE_URL, SWAHILI_NAME } from "@/lib/site";
+
+const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -20,10 +22,19 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Tanzania Perfusionist",
+    url: "/",
+    locale: "en_TZ",
     title: "Tanzania Perfusionist",
     description: "Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care.",
+    images: [{ url: "/images/hero-perfusionists.webp", width: 960, height: 1280, alt: "Perfusionists at the heart-lung machine" }],
   },
   twitter: { card: "summary_large_image" },
+  alternates: { canonical: "./" },
+  applicationName: "Tanzania Perfusionist",
+  keywords: ["Tanzania Perfusionist", "perfusionist Tanzania", "perfusion", "cardiopulmonary bypass", "ECMO", "TaCPA", "Tanzania Cardiovascular Perfusion Association", SWAHILI_NAME],
+  robots: { index: true, follow: true },
+  // Paste the code from Google Search Console into the GOOGLE_SITE_VERIFICATION env var on Vercel.
+  verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
