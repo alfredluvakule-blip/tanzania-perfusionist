@@ -428,6 +428,43 @@ export const milestones: Milestone[] = [
 
 export const publications: Publication[] = [
   {
+    id: "p-luvakule-2026-cpb-complications",
+    title: "Cardiopulmonary bypass complications and their predictors in open-heart surgery at a tertiary cardiac care facility in Tanzania",
+    authors: "Luvakule A, Gamba S, Lugazia E",
+    journal: "Global Cardiology Science and Practice",
+    year: 2026,
+    doi: "10.21542/gcsp.2026.11",
+    summary:
+      "Retrospective review of 195 paediatric and adult patients who underwent open-heart surgery on cardiopulmonary bypass at the Jakaya Kikwete Cardiac Institute, Dar es Salaam, from January to December 2020, describing CPB-related complications and their predictors.",
+    key_findings: [
+      "Major complications in 31.3% of patients, most often cardiovascular (10.8%) and bleeding (9.2%); prolonged ICU stay in 52.8%; mortality 4.1%.",
+      "Younger age, diagnosis, procedure type, CPB duration and cross-clamp time were significant predictors of complications.",
+      "Longer CPB duration was associated with cardiovascular, renal and bleeding complications, and CPB over 120 minutes with prolonged ICU stay (52.3% vs 35.1%).",
+    ],
+    category: "Cardiopulmonary Bypass",
+    publication_type: "Clinical Research",
+    content_kind: "original",
+    open_access: true,
+  },
+  {
+    id: "p-salim-2025-bmh",
+    title: "Transformation of Cardiology and Cardiothoracic Services at Benjamin Mkapa Hospital, Tanzania: Findings and Experiences from 1,313 Cardiovascular Procedures in Five Years",
+    authors: "Salim AA, Luvakule A, Ibrahim H, Kessy SA, Khatib S, et al.",
+    journal: "Global Heart",
+    year: 2025,
+    doi: "10.5334/gh.1488",
+    summary:
+      "Retrospective review of cardiology and cardiothoracic services at Benjamin Mkapa Hospital, Dodoma, from February 2019 to August 2024, covering 1,313 procedures: 1,215 adult catheterisations, 55 paediatric catheterisations and 43 open-heart surgeries.",
+    key_findings: [
+      "Reported success rates of 96.5% for percutaneous coronary intervention and 93.0% for open-heart surgery.",
+      "The authors highlight strategic investment, leadership and partnerships as key to building cardiac services in a low-resource setting.",
+    ],
+    category: "Research and Innovation",
+    publication_type: "Clinical Research",
+    content_kind: "original",
+    open_access: true,
+  },
+  {
     id: "p-eacts-2019",
     title: "2019 EACTS/EACTA/EBCP guidelines on cardiopulmonary bypass in adult cardiac surgery",
     authors: "Wahba A, Milojevic M, Boer C, et al.",
