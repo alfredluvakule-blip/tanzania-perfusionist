@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Award, BookOpen, Camera, GraduationCap, HeartHandshake, MessagesSquare, PenLine } from "lucide-react";
 import { Hero } from "@/components/Hero";
 import { PhotoStory } from "@/components/PhotoStory";
+import { DutiesOverview } from "@/components/DutiesFlow";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import { CaseCard, LegacyCard, NewsCard, PublicationCard } from "@/components/Cards";
@@ -12,6 +13,7 @@ import { Disclaimer } from "@/components/Disclaimer";
 import { getCases, getLegacy, getMedia, getMilestones, getNews, getPublications } from "@/lib/content";
 import { RESEARCH_CATEGORIES } from "@/lib/types";
 import { SITE_URL, SWAHILI_NAME } from "@/lib/site";
+import { DUTY_AREAS } from "@/lib/duties";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -20,15 +22,15 @@ const jsonLd = {
       "@type": "Organization",
       "@id": `${SITE_URL}/#org`,
       name: "Tanzania Cardiovascular Perfusion Association",
-      alternateName: ["TaCPA", "Tanzania Perfusionist", SWAHILI_NAME],
+      alternateName: ["TaCPA", "Tanzania Perfusionists", "Tanzania Perfusionist", SWAHILI_NAME],
       url: SITE_URL,
       logo: `${SITE_URL}/images/tacpa-logo.webp`,
     },
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
-      name: "Tanzania Perfusionist",
-      alternateName: SWAHILI_NAME,
+      name: "Tanzania Perfusionists",
+      alternateName: ["Tanzania Perfusionist", SWAHILI_NAME],
       url: SITE_URL,
       publisher: { "@id": `${SITE_URL}/#org` },
       potentialAction: { "@type": "SearchAction", target: `${SITE_URL}/search?q={search_term_string}`, "query-input": "required name=search_term_string" },
@@ -60,6 +62,16 @@ export default async function Home() {
       </section>
 
       <PhotoStory />
+
+      {/* What a perfusionist does */}
+      <section className="bg-white py-20 sm:py-24">
+        <div className="container-x">
+          <SectionHeading eyebrow="Duties of a cardiovascular perfusionist" title="What a perfusionist does"
+            intro="From the heart-lung machine and ECMO to isolated limb perfusion and cell salvage: the work across cardiac surgery, the cath lab, ICU, oncology and orthopaedics."
+            href="/duties" cta="All duties" />
+          <DutiesOverview areas={DUTY_AREAS} linkBase="/duties" />
+        </div>
+      </section>
 
       {/* B. Latest news */}
       <section id="latest" className="container-x scroll-mt-20 py-20 sm:py-24">

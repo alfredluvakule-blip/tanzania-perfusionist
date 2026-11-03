@@ -550,8 +550,8 @@ export const publications: Publication[] = [
   {
     id: "p-edu-circuit",
     title: "Educational summary: components of a standard CPB circuit",
-    authors: "Tanzania Perfusionist Editorial Team",
-    journal: "Tanzania Perfusionist (educational content)",
+    authors: "Tanzania Perfusionists Editorial Team",
+    journal: "Tanzania Perfusionists (educational content)",
     year: 2026,
     summary:
       "A plain-language overview of the main parts of a conventional CPB circuit: venous drainage, venous reservoir, arterial pump (roller or centrifugal), membrane oxygenator with heat exchanger, arterial line filter, cardioplegia delivery, suction and vents, and the monitoring that ties them together.",
@@ -568,11 +568,11 @@ export const news: NewsArticle[] = [
   {
     id: "n-1",
     slug: "welcome-to-tanzania-perfusionist",
-    title: "Welcome to Tanzania Perfusionist",
+    title: "Welcome to Tanzania Perfusionists",
     summary:
       "A new digital home for perfusionists, cardiac teams, students and researchers in Tanzania and beyond.",
     body:
-      "Tanzania Perfusionist brings together news, research, case discussions, history and media for the perfusion community. Members can register, build profiles and submit content, which is reviewed by editors before publication.\n\nThis is a sample article. Replace it from the admin dashboard.",
+      "Tanzania Perfusionists brings together news, research, case discussions, history and media for the perfusion community. Members can register, build profiles and submit content, which is reviewed by editors before publication.\n\nThis is a sample article. Replace it from the admin dashboard.",
     category: "Announcements",
     author: "Editorial Team",
     published_at: "2026-11-01",

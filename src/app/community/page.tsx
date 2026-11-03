@@ -69,7 +69,7 @@ export default async function Community() {
 
       <section id="join" className="container-x scroll-mt-20 py-14">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-900 to-navy-950 p-10 text-center text-white">
-          <h2 className="font-display text-3xl font-semibold">Join Tanzania Perfusionist</h2>
+          <h2 className="font-display text-3xl font-semibold">Join Tanzania Perfusionists</h2>
           <p className="mx-auto mt-3 max-w-xl text-navy-100">Perfusionists, cardiac surgeons, anaesthetists, nurses, students and researchers are all welcome.</p>
           <Link href="/login" className="btn-primary mt-8">Create a free account</Link>
         </div>

@@ -43,10 +43,10 @@ export function Hero() {
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 font-display text-5xl font-bold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl"
+            className="mt-5 font-display text-[min(10.5vw,3rem)] font-bold leading-[1.02] tracking-tight sm:text-6xl xl:text-7xl"
           >
             TANZANIA
-            <span className="block bg-gradient-to-r from-teal-300 via-teal-400 to-cyan-200 bg-clip-text text-transparent">PERFUSIONIST</span>
+            <span className="block bg-gradient-to-r from-teal-300 via-teal-400 to-cyan-200 bg-clip-text text-transparent">PERFUSIONISTS</span>
           </motion.h1>
           <motion.p
             lang="sw"

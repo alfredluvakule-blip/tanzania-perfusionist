@@ -1,6 +1,6 @@
 set client_min_messages = warning;
 -- =====================================================================
--- Tanzania Perfusionist: Supabase schema
+-- Tanzania Perfusionists: Supabase schema
 -- Run once in the Supabase SQL editor (or `supabase db push`).
 --
 -- Roles
