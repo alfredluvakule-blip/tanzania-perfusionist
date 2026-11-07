@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  BarChart3, Check, ChevronLeft, ClipboardCheck, FileText, Inbox, LayoutDashboard, Loader2, LogOut,
+  BarChart3, BookOpen, Check, Download, ChevronLeft, ClipboardCheck, FileText, Inbox, LayoutDashboard, Loader2, LogOut,
   Mail, Pencil, Plus, Search, Trash2, Users, X,
 } from "lucide-react";
 import { getBrowserSupabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -12,9 +12,10 @@ import { COLLECTIONS, ROLE_LABEL, can, getCollection, type Collection } from "@/
 import { ContentForm } from "@/components/cms/ContentForm";
 import type { Role, Status } from "@/lib/types";
 import { LogoMark } from "@/components/Logo";
+import { DownloadsPanel, ResourcesManager } from "@/components/cms/ResourcesAdmin";
 
 type Row = Record<string, unknown> & { id: string; status?: Status; created_at?: string };
-type Tab = "overview" | "review" | "users" | "messages" | "newsletter" | "analytics" | `c:${string}`;
+type Tab = "overview" | "review" | "users" | "messages" | "newsletter" | "analytics" | "resources" | "downloads" | `c:${string}`;
 
 const STATUS_STYLE: Record<string, string> = {
   published: "bg-teal-50 text-teal-700", pending_review: "bg-amber-100 text-amber-800", draft: "bg-navy-50 text-navy-600",
@@ -39,6 +40,8 @@ export default function Admin() {
     { id: "users", label: "Users & roles", icon: Users, show: role === "super_admin" },
     { id: "messages", label: "Contact messages", icon: Inbox, show: isEditor },
     { id: "newsletter", label: "Newsletter", icon: Mail, show: isEditor },
+    { id: "resources", label: "Resources (upload)", icon: BookOpen, show: isEditor },
+    { id: "downloads", label: "Downloads", icon: Download, show: isEditor },
     { id: "analytics", label: "Analytics", icon: BarChart3, show: isEditor },
   ];
 
@@ -73,6 +76,8 @@ export default function Admin() {
           {tab === "users" && <UsersPanel />}
           {tab === "messages" && <SimpleTable table="contact_messages" cols={["created_at", "name", "email", "topic", "message"]} title="Contact messages" />}
           {tab === "newsletter" && <SimpleTable table="newsletter_subscribers" cols={["created_at", "email"]} title="Newsletter subscribers" exportCsv />}
+          {tab === "resources" && <ResourcesManager />}
+          {tab === "downloads" && <DownloadsPanel />}
           {tab === "analytics" && <Analytics />}
         </main>
       </div>
@@ -371,7 +376,7 @@ function Analytics() {
   return (
     <div>
       <h1 className="font-display text-3xl font-semibold">Analytics</h1>
-      <p className="mt-1 text-sm text-navy-600">Anonymous page views for the last 30 days (no personal data stored).</p>
+      <p className="mt-1 text-sm text-navy-600">Anonymous page views for the last 30 days (no personal data stored). For visitors by country, device and referrer, open <a className="text-teal-700 underline" href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer">Vercel</a> &gt; your project &gt; Analytics. To see who downloaded files, open the Downloads tab.</p>
       <div className="card mt-6 p-6">
         <p className="text-sm text-navy-500">Total views</p>
         <p className="font-display text-4xl font-semibold">{total.toLocaleString()}</p>
