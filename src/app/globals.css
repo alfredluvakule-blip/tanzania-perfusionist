@@ -56,3 +56,38 @@ body {
   100% { left: 100%; opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .duty-travel { display: none; } }
+
+/* ---------- Motion polish ---------- */
+
+/* A bright pulse running along the hero ECG trace (pathLength=1) */
+.ecg-pulse {
+  stroke-dasharray: 0.06 1;
+  stroke-dashoffset: 0.06;
+  filter: drop-shadow(0 0 6px rgba(244, 63, 94, .9));
+  animation: ecg-run 3.6s cubic-bezier(.45, 0, .55, 1) 2.6s infinite;
+  opacity: 0;
+}
+@keyframes ecg-run {
+  0% { stroke-dashoffset: 0.06; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { stroke-dashoffset: -1; opacity: 0; }
+}
+
+/* Cursor spotlight on cards: PointerGlow writes --mx/--my while hovering.
+   In the components layer so Tailwind bg-* utilities still win. */
+@layer components {
+  .card, [data-glow] {
+    background-image: radial-gradient(420px circle at var(--mx, -500px) var(--my, -500px), rgba(34, 211, 238, .10), transparent 45%);
+  }
+}
+
+/* Hero spotlight that follows the cursor */
+.hero-spot {
+  background: radial-gradient(520px circle at var(--hx, 70%) var(--hy, 40%), rgba(34, 211, 238, .14), transparent 55%);
+  transition: background .2s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ecg-pulse { display: none; }
+}

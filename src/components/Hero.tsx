@@ -8,6 +8,9 @@ import { FlowLines } from "./FlowLines";
 import Image from "next/image";
 import { HERO_IMAGE, HERO_VIDEO, SWAHILI_NAME } from "@/lib/site";
 import { HeroVideo } from "./HeroVideo";
+import { SplitText } from "./SplitText";
+import { Magnetic } from "./Magnetic";
+import { HeartbeatLine } from "./HeartbeatLine";
 
 const CTAS = [
   { href: "/news", label: "Explore Perfusion News", icon: Newspaper, primary: true },
@@ -23,9 +26,18 @@ export function Hero() {
   const artY = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
   const photoScale = useTransform(scrollYProgress, [0, 1], [1.04, 1.16]);
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const spot = useRef<HTMLDivElement>(null);
+
+  // Soft light that follows the mouse across the hero (no-op on touch)
+  const onPointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (e.pointerType !== "mouse" || !spot.current || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    spot.current.style.setProperty("--hx", `${e.clientX - r.left}px`);
+    spot.current.style.setProperty("--hy", `${e.clientY - r.top}px`);
+  };
 
   return (
-    <section ref={ref} className="noise relative flex min-h-[100svh] items-center lg:min-h-[100svh] overflow-hidden bg-navy-950 pt-20 text-white">
+    <section ref={ref} onPointerMove={onPointerMove} className="noise relative flex min-h-[100svh] items-center lg:min-h-[100svh] overflow-hidden bg-navy-950 pt-20 text-white">
       {/* background: optional uploaded photo/video still, plus gradients and flowing lines */}
       <motion.div style={{ y: bgY }} className="absolute inset-0">
         {/* the same photo, blurred and darkened, as a cinematic backdrop */}
@@ -34,6 +46,8 @@ export function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(80%_60%_at_70%_40%,rgba(8,145,178,.35),transparent_60%),radial-gradient(50%_50%_at_10%_90%,rgba(225,29,72,.18),transparent_60%)]" />
         <FlowLines className="absolute inset-0 h-full w-full" />
       </motion.div>
+      <div ref={spot} className="hero-spot pointer-events-none absolute inset-0" />
+      <HeartbeatLine className="pointer-events-none absolute inset-x-0 bottom-2 h-20 w-full opacity-80 sm:bottom-10 sm:h-24" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy-950 to-transparent" />
 
       <div className="container-x relative grid items-center gap-12 py-16 lg:grid-cols-[1.15fr_1fr]">
@@ -42,13 +56,13 @@ export function Hero() {
             <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-pulse-500 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-pulse-500" /></span>
             The perfusion knowledge network
           </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 font-display text-[min(10.5vw,3rem)] font-bold leading-[1.02] tracking-tight sm:text-6xl xl:text-7xl"
-          >
-            TANZANIA
-            <span className="block bg-gradient-to-r from-teal-300 via-teal-400 to-cyan-200 bg-clip-text text-transparent">PERFUSIONISTS</span>
-          </motion.h1>
+          <h1 className="mt-5 font-display text-[min(10.5vw,3rem)] font-bold leading-[1.02] tracking-tight sm:text-6xl xl:text-7xl">
+            <SplitText text="TANZANIA" by="letter" delay={0.15} className="block" />
+            <SplitText
+              text="PERFUSIONISTS" delay={0.5} className="block"
+              itemClassName="bg-gradient-to-r from-teal-300 via-teal-400 to-cyan-200 bg-clip-text text-transparent"
+            />
+          </h1>
           <motion.p
             lang="sw"
             initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35, duration: 0.7 }}
@@ -69,11 +83,13 @@ export function Hero() {
             className="mt-10 flex flex-wrap gap-3"
           >
             {CTAS.map(({ href, label, icon: Icon, primary }) => (
-              <motion.div key={href} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }} whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
-                <Link href={href} className={`${primary ? "btn-primary" : "btn-ghost"} group`}>
-                  <Icon className="h-4 w-4" /> {label}
-                  {primary && <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />}
-                </Link>
+              <motion.div key={href} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}>
+                <Magnetic>
+                  <Link href={href} className={`${primary ? "btn-primary" : "btn-ghost"} group`}>
+                    <Icon className="h-4 w-4" /> {label}
+                    {primary && <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />}
+                  </Link>
+                </Magnetic>
               </motion.div>
             ))}
           </motion.div>
