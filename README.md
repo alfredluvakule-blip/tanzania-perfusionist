@@ -62,3 +62,11 @@ scripts/            generate-seed-sql.mjs (rebuild seed.sql from seed.ts)
 - `sitemap.xml` and `robots.txt` use the live address automatically (Vercel's production domain, or `NEXT_PUBLIC_SITE_URL` if you set a custom domain).
 - Every page has a canonical link, and the homepage includes Organization/WebSite structured data (TaCPA, Kiswahili name).
 - Google Search Console: add the site as a **URL prefix** property, choose the **HTML tag** method, put the code in the `GOOGLE_SITE_VERIFICATION` environment variable on Vercel, redeploy, press Verify, then submit `sitemap.xml`.
+
+## Visitor statistics
+
+The site uses Vercel Web Analytics (`<Analytics />` in `src/app/layout.tsx`). Turn it on once in Vercel: open the project, go to the **Analytics** tab and click **Enable**. After the next deploy you can see visitors, page views, top pages, countries, devices and referrers there. It uses no cookies and does not identify individual people.
+
+## Resources (presentations and books)
+
+Put files in `public/resources/presentations/` or `public/resources/books/` and add an entry to `src/lib/resources.ts`. They appear on `/resources` with a Download button. Only add material you wrote or that is free to share.
