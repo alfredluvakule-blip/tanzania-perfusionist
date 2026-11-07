@@ -24,7 +24,9 @@ export function useAuth() {
       } else setProfile(null);
       setReady(true);
     };
-    sb.auth.getUser().then(({ data }) => load(data.user));
+    // getSession reads the saved session locally (instant); the database still checks
+    // the token on every query, so this is only used to decide what to show.
+    sb.auth.getSession().then(({ data }) => load(data.session?.user ?? null));
     const { data: sub } = sb.auth.onAuthStateChange((_e, s) => load(s?.user ?? null));
     return () => sub.subscription.unsubscribe();
   }, []);

@@ -21,12 +21,14 @@ Without Supabase keys the site still runs and shows built-in reference and sampl
 1. Create a project at supabase.com.
 2. In the SQL editor, run `supabase/schema.sql`, then `supabase/seed.sql`.
 3. Put the project URL and anon key in `.env.local` (or Vercel environment variables).
-4. Sign up on the site, then make yourself Super Administrator in the SQL editor:
+4. Make yourself Super Administrator by email (run once in the SQL editor; the address is not stored in this repo):
    ```sql
-   update profiles set role = 'super_admin'
-   where id = (select id from auth.users where email = 'you@example.com');
+   insert into public.admin_emails (email) values ('you@example.com') on conflict do nothing;
    ```
+   Then sign up on the site with that email and set your own password. The account becomes Super Administrator as soon as the email is confirmed (or immediately, if it already exists).
 5. Open `/admin`.
+
+**Faster sign-up:** Supabase's built-in email service is slow and limited to a few emails an hour, so confirmation emails can take minutes or land in spam. Either turn off **Authentication > Sign In / Providers > Email > Confirm email** (new members are signed in at once; sign up your own admin email first), or add your own SMTP sender under **Authentication > Emails > SMTP Settings** (for example Resend or Brevo).
 
 ## Roles and approval
 
