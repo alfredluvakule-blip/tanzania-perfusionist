@@ -26,6 +26,12 @@ export default function Admin() {
   const { user, profile, role, ready } = useAuth();
   const [tab, setTab] = useState<Tab>("overview");
 
+  // Deep links such as /admin?tab=resources open that tab directly.
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get("tab");
+    if (t) setTab(t as Tab);
+  }, []);
+
   if (!isSupabaseConfigured) return <Shell><SetupNotice /></Shell>;
   if (!ready) return <Shell><p className="flex items-center gap-2 text-navy-500"><Loader2 className="h-4 w-4 animate-spin" /> Loading…</p></Shell>;
   if (!user) return <Shell><Gate title="Sign in required" text="Sign in with an editor or contributor account to manage content." href="/login" cta="Sign in" /></Shell>;
@@ -35,14 +41,14 @@ export default function Admin() {
   const isEditor = can(role, "editor");
   const nav: { id: Tab; label: string; icon: typeof FileText; show: boolean }[] = [
     { id: "overview", label: "Overview", icon: LayoutDashboard, show: true },
+    { id: "resources", label: "Upload presentations & books", icon: BookOpen, show: isEditor },
+    { id: "downloads", label: "Who downloaded", icon: Download, show: isEditor },
+    { id: "analytics", label: "Views", icon: BarChart3, show: isEditor },
     { id: "review", label: "Review queue", icon: ClipboardCheck, show: isEditor },
-    ...COLLECTIONS.map((c) => ({ id: `c:${c.key}` as Tab, label: c.label, icon: FileText, show: true })),
     { id: "users", label: "Users & roles", icon: Users, show: role === "super_admin" },
     { id: "messages", label: "Contact messages", icon: Inbox, show: isEditor },
     { id: "newsletter", label: "Newsletter", icon: Mail, show: isEditor },
-    { id: "resources", label: "Resources (upload)", icon: BookOpen, show: isEditor },
-    { id: "downloads", label: "Downloads", icon: Download, show: isEditor },
-    { id: "analytics", label: "Analytics", icon: BarChart3, show: isEditor },
+    ...COLLECTIONS.map((c) => ({ id: `c:${c.key}` as Tab, label: c.label, icon: FileText, show: true })),
   ];
 
   return (
@@ -129,6 +135,20 @@ function Overview({ isEditor, go }: { isEditor: boolean; go: (t: Tab) => void })
   return (
     <div>
       <h1 className="font-display text-3xl font-semibold">Dashboard</h1>
+      {isEditor && (
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          {([
+            ["resources", BookOpen, "Upload presentations & books", "Add slides for CVP 1–4 and books"],
+            ["downloads", Download, "Who downloaded", "Names, emails and files"],
+            ["analytics", BarChart3, "Views", "Page views for the last 30 days"],
+          ] as const).map(([id, Icon, title, text]) => (
+            <button key={id} onClick={() => go(id)} className="flex items-start gap-4 rounded-2xl bg-teal-500 p-5 text-left text-navy-950 shadow-glow transition hover:bg-teal-400">
+              <Icon className="mt-0.5 h-6 w-6 flex-none" />
+              <span><span className="block font-display text-lg font-semibold leading-snug">{title}</span><span className="text-sm text-navy-800">{text}</span></span>
+            </button>
+          ))}
+        </div>
+      )}
       {isEditor && (
         <button onClick={() => go("review")} className="mt-6 flex w-full items-center justify-between rounded-2xl bg-navy-900 p-6 text-left text-white">
           <span><span className="block text-sm text-navy-200">Awaiting review</span><span className="font-display text-4xl font-semibold">{pending}</span></span>

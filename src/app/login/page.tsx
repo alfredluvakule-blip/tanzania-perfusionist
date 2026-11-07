@@ -18,7 +18,11 @@ export default function Login() {
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   // Load the dashboard code in the background so it opens instantly after sign-in.
-  useEffect(() => { router.prefetch("/admin"); }, [router]);
+  useEffect(() => {
+    router.prefetch("/admin");
+    // Already signed in: go straight to the dashboard.
+    getBrowserSupabase()?.auth.getSession().then(({ data }) => { if (data.session) router.replace("/admin"); });
+  }, [router]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();

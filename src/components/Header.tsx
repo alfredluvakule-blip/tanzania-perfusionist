@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { getBrowserSupabase } from "@/lib/supabase";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,6 +13,15 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Signed-in users get a direct link to the admin dashboard (session is read locally, no network call).
+  const [signedIn, setSignedIn] = useState(false);
+  useEffect(() => {
+    const sb = getBrowserSupabase();
+    if (!sb) return;
+    sb.auth.getSession().then(({ data }) => setSignedIn(Boolean(data.session)));
+    const { data: sub } = sb.auth.onAuthStateChange((_e, session) => setSignedIn(Boolean(session)));
+    return () => sub.subscription.unsubscribe();
+  }, []);
   const [hidden, setHidden] = useState(false);
   const overHero = pathname === "/" && !scrolled;
 
@@ -69,7 +79,7 @@ export function Header() {
           <Link href="/search" aria-label="Search" className="rounded-full p-2 text-navy-100 hover:bg-white/10 hover:text-white">
             <Search className="h-5 w-5" />
           </Link>
-          <Link href="/login" aria-label="Sign in" className="hidden rounded-full p-2 text-navy-100 hover:bg-white/10 hover:text-white sm:inline-flex">
+          <Link href={signedIn ? "/admin" : "/login"} aria-label={signedIn ? "Admin dashboard" : "Sign in"} title={signedIn ? "Admin dashboard" : "Sign in"} className="hidden rounded-full p-2 text-navy-100 hover:bg-white/10 hover:text-white sm:inline-flex">
             <UserRound className="h-5 w-5" />
           </Link>
           <Link href="/community#join" className="btn-primary ml-1 hidden !px-4 !py-2 sm:inline-flex">
@@ -97,7 +107,7 @@ export function Header() {
             aria-label="Mobile"
           >
             <ul className="container-x grid gap-1 py-4 sm:grid-cols-2">
-              {[...NAV, ...NAV_MORE, { href: "/login", label: "Sign in" }].map((item, i) => (
+              {[...NAV, ...NAV_MORE, signedIn ? { href: "/admin", label: "Admin dashboard" } : { href: "/login", label: "Sign in" }].map((item, i) => (
                 <motion.li key={item.href} initial={{ x: -12, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: i * 0.03 }}>
                   <Link href={item.href} className="block rounded-xl px-3 py-2.5 text-base text-navy-50 hover:bg-white/10">
                     {item.label}
