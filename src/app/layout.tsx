@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Providers } from "@/components/Providers";
 import { PageTransition } from "@/components/PageTransition";
 import { PageViewTracker } from "@/components/PageViewTracker";
+import { Analytics } from "@vercel/analytics/next";
 
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const display = Sora({ subsets: ["latin"], variable: "--font-display", display: "swap" });
@@ -62,6 +63,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageTransition>{children}</PageTransition>
           <Footer />
         </Providers>
+        {/* Vercel Web Analytics: visitor counts, pages, countries. View in Vercel > project > Analytics. */}
+        <Analytics />
       </body>
     </html>
   );
