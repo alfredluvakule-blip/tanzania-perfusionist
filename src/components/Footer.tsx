@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 import { NAV, NAV_MORE } from "@/lib/nav";
 import { NewsletterForm } from "./NewsletterForm";
-import { SWAHILI_NAME } from "@/lib/site";
+import { Mail } from "lucide-react";
+import { CONTACT_EMAIL, SWAHILI_NAME } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -16,6 +17,9 @@ export function Footer() {
             Connecting Perfusionists. Preserving Our History. Advancing Cardiac Care.
           </p>
           <p className="mt-3 max-w-xs text-xs text-navy-300">Tanzania Cardiovascular Perfusion Association (TaCPA)</p>
+          <a className="mt-5 inline-flex items-center gap-2 text-sm hover:text-teal-300" href={`mailto:${CONTACT_EMAIL}`}>
+            <Mail className="h-4 w-4 shrink-0 text-teal-300" />{CONTACT_EMAIL}
+          </a>
         </div>
         <div>
           <h3 className="text-sm font-semibold text-white">Explore</h3>

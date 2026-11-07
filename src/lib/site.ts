@@ -47,3 +47,6 @@ export const SITE_URL = (
   (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
   "https://tanzania-perfusionist.vercel.app"
 ).replace(/\/$/, "");
+
+/** Public contact email shown in the footer and on the Contact page. */
+export const CONTACT_EMAIL = "alfredluvakule@gmail.com";
