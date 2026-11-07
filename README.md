@@ -69,4 +69,12 @@ The site uses Vercel Web Analytics (`<Analytics />` in `src/app/layout.tsx`). Tu
 
 ## Resources (presentations and books)
 
-Put files in `public/resources/presentations/` or `public/resources/books/` and add an entry to `src/lib/resources.ts`. They appear on `/resources` with a Download button. Only add material you wrote or that is free to share.
+`/resources` lists presentations grouped as Year 1 (CVP 1, CVP 2) and Year 2 (CVP 3, CVP 4), plus books.
+
+- **Upload from the site:** sign in as an Editor or Super Administrator, open `/admin` > **Resources (upload)**, fill in the form and choose the file (PDF, PowerPoint, Word or EPUB, up to 50 MB). It is published straight away. Larger files: put them on Google Drive and paste the share link instead.
+- **Who downloaded:** visitors give their name, email and (optionally) hospital or school before their first download. `/admin` > **Downloads** shows every download, totals per file, and a CSV export.
+- **Views:** `/admin` > **Analytics** (page views from Supabase) and Vercel > project > **Analytics** (visitors, countries, devices).
+
+This needs Supabase (see "Connect Supabase" above). If you set Supabase up before this feature, run `supabase/schema.sql` again in the SQL editor; it is safe to re-run and adds the `resources` and `resource_downloads` tables and the `resources` storage bucket.
+
+Files can also be added in code: put them in `public/resources/...` and list them in `src/lib/resources.ts`.

@@ -1,38 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Download, ExternalLink, Presentation, Upload } from "lucide-react";
+import { BookOpen, GraduationCap, Presentation, Upload } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
-import { BOOKS, PRESENTATIONS, type Resource } from "@/lib/resources";
+import { DownloadButton } from "@/components/DownloadButton";
+import { getResources } from "@/lib/content";
+import { COURSE_GROUPS, COURSES, type ResourceItem } from "@/lib/resources";
 
 export const metadata: Metadata = {
   title: "Resources: Presentations & Books",
   description:
-    "Download perfusion presentations, lecture slides and books shared by perfusionists in Tanzania and beyond.",
+    "Download perfusion presentations for CVP 1 to CVP 4 and books shared by perfusionists in Tanzania and beyond.",
 };
+export const revalidate = 60;
 
-const SECTIONS = [
-  {
-    id: "presentations",
-    title: "Presentations",
-    intro: "Lecture slides and conference talks on cardiopulmonary bypass, ECMO and perfusion practice.",
-    icon: Presentation,
-    items: PRESENTATIONS,
-    empty: "Presentations will appear here soon.",
-  },
-  {
-    id: "books",
-    title: "Books",
-    intro: "Books and handbooks that are free to share, or links to where you can get them.",
-    icon: BookOpen,
-    items: BOOKS,
-    empty: "Books will appear here soon.",
-  },
-];
-
-function ResourceCard({ r, icon: Icon }: { r: Resource; icon: typeof BookOpen }) {
-  const href = r.file ?? r.url;
-  const isFile = Boolean(r.file);
+function ResourceCard({ r }: { r: ResourceItem }) {
+  const Icon = r.kind === "book" ? BookOpen : Presentation;
   return (
     <article className="card flex h-full flex-col p-6">
       <div className="flex items-start gap-4">
@@ -53,60 +36,92 @@ function ResourceCard({ r, icon: Icon }: { r: Resource; icon: typeof BookOpen })
         {r.format && <span className="chip">{r.format}</span>}
         {r.licence && <span className="chip">{r.licence}</span>}
       </div>
-      {href && (
-        <a
-          href={href}
-          {...(isFile ? { download: "" } : { target: "_blank", rel: "noopener noreferrer" })}
-          className="btn-primary mt-4 justify-center"
-        >
-          {isFile ? <><Download className="h-4 w-4" /> Download</> : <><ExternalLink className="h-4 w-4" /> Open</>}
-        </a>
-      )}
+      <DownloadButton resourceKey={r.key} title={r.title} href={r.href} isFile={r.isFile} />
     </article>
   );
 }
 
-export default function ResourcesPage() {
+function Grid({ items, empty }: { items: ResourceItem[]; empty: string }) {
+  if (!items.length)
+    return <p className="rounded-2xl border border-dashed border-navy-200 p-6 text-center text-sm text-navy-500">{empty}</p>;
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((r) => <Reveal key={r.key}><ResourceCard r={r} /></Reveal>)}
+    </div>
+  );
+}
+
+export default async function ResourcesPage() {
+  const all = await getResources();
+  const presentations = all.filter((r) => r.kind === "presentation");
+  const books = all.filter((r) => r.kind === "book");
+  const other = presentations.filter((r) => !r.course || !(COURSES as readonly string[]).includes(r.course));
+
+  const jump = [
+    ...COURSE_GROUPS.map((g) => ({ id: g.year.toLowerCase().replace(" ", "-"), label: `${g.year} (${g.courses.join(", ")})` })),
+    { id: "books", label: `Books (${books.length})` },
+  ];
+
   return (
     <>
       <PageHeader
         eyebrow="Resources"
         title="Presentations & books"
-        intro="Slides and reading for perfusionists, students and cardiac-care teams. Free to download for education."
+        intro="Lecture slides for CVP 1 to CVP 4 and reading for perfusionists, students and cardiac-care teams. Free to download for education."
       >
-        <nav aria-label="Resource types" className="mt-8 flex flex-wrap gap-2">
-          {SECTIONS.map((s) => (
+        <nav aria-label="Resource sections" className="mt-8 flex flex-wrap gap-2">
+          {jump.map((s) => (
             <a key={s.id} href={`#${s.id}`} className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/15 transition hover:bg-teal-500 hover:text-navy-950">
-              {s.title} ({s.items.length})
+              {s.label}
             </a>
           ))}
         </nav>
       </PageHeader>
 
-      {SECTIONS.map((s, i) => (
-        <section key={s.id} id={s.id} className={`scroll-mt-20 py-16 sm:py-20 ${i % 2 ? "bg-white" : ""}`}>
-          <div className="container-x">
-            <Reveal className="mb-10 max-w-3xl">
-              <h2 className="h-section">{s.title}</h2>
-              <p className="mt-3 text-navy-600">{s.intro}</p>
-            </Reveal>
-            {s.items.length ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {s.items.map((r) => (
-                  <Reveal key={r.title}><ResourceCard r={r} icon={s.icon} /></Reveal>
+      <section id="presentations" className="scroll-mt-20 py-16 sm:py-20">
+        <div className="container-x">
+          <Reveal className="mb-10 max-w-3xl">
+            <h2 className="h-section">Presentations</h2>
+            <p className="mt-3 text-navy-600">Lecture slides grouped by year of study and CVP course.</p>
+          </Reveal>
+
+          {COURSE_GROUPS.map((g) => (
+            <div key={g.year} id={g.year.toLowerCase().replace(" ", "-")} className="scroll-mt-24 mb-14 last:mb-0">
+              <div className="mb-6 flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-500 text-navy-950"><GraduationCap className="h-5 w-5" /></span>
+                <h3 className="font-display text-2xl font-semibold">{g.year}</h3>
+              </div>
+              <div className="space-y-10 border-l-2 border-teal-500/30 pl-5 sm:pl-8">
+                {g.courses.map((c) => (
+                  <div key={c} id={c.toLowerCase().replace(" ", "")} className="scroll-mt-24">
+                    <h4 className="mb-4 font-display text-lg font-semibold text-navy-800">{c}</h4>
+                    <Grid items={presentations.filter((r) => r.course === c)} empty={`${c} presentations will appear here soon.`} />
+                  </div>
                 ))}
               </div>
-            ) : (
-              <div className="rounded-2xl border border-dashed border-navy-200 p-8 text-center text-navy-600">
-                <s.icon className="mx-auto h-8 w-8 text-navy-400" />
-                <p className="mt-3">{s.empty}</p>
-              </div>
-            )}
-          </div>
-        </section>
-      ))}
+            </div>
+          ))}
 
-      <section className="container-x pb-24">
+          {other.length > 0 && (
+            <div className="mt-14">
+              <h3 className="mb-6 font-display text-2xl font-semibold">Other presentations</h3>
+              <Grid items={other} empty="" />
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section id="books" className="scroll-mt-20 bg-white py-16 sm:py-20">
+        <div className="container-x">
+          <Reveal className="mb-10 max-w-3xl">
+            <h2 className="h-section">Books</h2>
+            <p className="mt-3 text-navy-600">Books and handbooks that are free to share, or links to where you can get them.</p>
+          </Reveal>
+          <Grid items={books} empty="Books will appear here soon." />
+        </div>
+      </section>
+
+      <section className="container-x py-16 sm:py-24">
         <Reveal className="relative overflow-hidden rounded-3xl bg-navy-950 p-8 text-white sm:p-12">
           <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-teal-500/25 blur-3xl" />
           <h2 className="relative font-display text-2xl font-semibold sm:text-3xl">Have slides or a book to share?</h2>

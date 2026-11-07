@@ -406,3 +406,81 @@ create policy "media: upload own folder" on storage.objects for insert to authen
 drop policy if exists "media: editors or owner delete" on storage.objects;
 create policy "media: editors or owner delete" on storage.objects for delete to authenticated
   using (bucket_id = 'media' and (public.is_editor() or owner = auth.uid()));
+
+-- ---------------------------------------------------------------------
+-- Resources: presentations and books uploaded by editors from /admin,
+-- and a log of who downloaded what. Re-running this file is safe.
+-- ---------------------------------------------------------------------
+create table if not exists public.resources (
+  id uuid primary key default gen_random_uuid(),
+  kind text not null check (kind in ('presentation', 'book')),
+  course text check (course in ('CVP 1', 'CVP 2', 'CVP 3', 'CVP 4', 'Other')),
+  title text not null check (length(title) <= 300),
+  author text not null check (length(author) <= 300),
+  year text check (length(year) <= 20),
+  description text check (length(description) <= 2000),
+  source text check (length(source) <= 300),
+  licence text check (length(licence) <= 200),
+  file_path text,          -- path inside the "resources" storage bucket
+  file_name text,
+  file_size bigint,
+  external_url text,       -- e.g. Google Drive link for very large files
+  status public.content_status not null default 'published',
+  created_by uuid references auth.users(id) on delete set null default auth.uid(),
+  created_at timestamptz not null default now(),
+  check (file_path is not null or external_url is not null)
+);
+alter table public.resources enable row level security;
+drop policy if exists "resources: public read published" on public.resources;
+create policy "resources: public read published" on public.resources for select
+  using (status = 'published' or public.is_editor());
+drop policy if exists "resources: editors write" on public.resources;
+create policy "resources: editors write" on public.resources for all to authenticated
+  using (public.is_editor()) with check (public.is_editor());
+
+create table if not exists public.resource_downloads (
+  id bigint generated always as identity primary key,
+  resource_key text not null check (length(resource_key) <= 300),  -- resources.id, or the file path for built-in files
+  resource_title text not null check (length(resource_title) <= 300),
+  name text not null check (length(name) between 1 and 200),
+  email text not null check (email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$' and length(email) <= 320),
+  workplace text check (length(workplace) <= 200),
+  user_id uuid references auth.users(id) on delete set null default auth.uid(),
+  created_at timestamptz not null default now()
+);
+create index if not exists resource_downloads_created_idx on public.resource_downloads (created_at);
+alter table public.resource_downloads enable row level security;
+drop policy if exists "anyone records a download" on public.resource_downloads;
+create policy "anyone records a download" on public.resource_downloads for insert to anon, authenticated
+  with check (user_id is null or user_id = auth.uid());
+drop policy if exists "editors read downloads" on public.resource_downloads;
+create policy "editors read downloads" on public.resource_downloads for select using (public.is_editor());
+drop policy if exists "editors delete downloads" on public.resource_downloads;
+create policy "editors delete downloads" on public.resource_downloads for delete using (public.is_editor());
+
+create or replace view public.resource_download_stats with (security_invoker = true) as
+  select resource_key, max(resource_title) as resource_title, count(*)::int as downloads,
+         count(distinct lower(email))::int as people, max(created_at) as last_download
+  from public.resource_downloads group by resource_key order by downloads desc;
+
+-- Public "resources" bucket (PDF, PowerPoint, Word, EPUB; up to 50 MB, the
+-- Supabase free-plan limit). Only editors and super admins can upload or delete.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('resources', 'resources', true, 52428800, array[
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/msword',
+  'application/epub+zip'
+])
+on conflict (id) do nothing;
+
+drop policy if exists "resources: public read" on storage.objects;
+create policy "resources: public read" on storage.objects for select using (bucket_id = 'resources');
+drop policy if exists "resources: editors upload" on storage.objects;
+create policy "resources: editors upload" on storage.objects for insert to authenticated
+  with check (bucket_id = 'resources' and public.is_editor());
+drop policy if exists "resources: editors delete" on storage.objects;
+create policy "resources: editors delete" on storage.objects for delete to authenticated
+  using (bucket_id = 'resources' and public.is_editor());

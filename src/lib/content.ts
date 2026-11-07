@@ -2,6 +2,7 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from "./supabase";
 import * as seed from "./seed";
+import { fileFormat, staticResources, type ResourceItem } from "./resources";
 import type {
   CaseReport, EventItem, LegacyStory, MediaItem, MemberProfile, Milestone,
   NewsArticle, Opportunity, Publication,
@@ -43,4 +44,26 @@ export async function getNewsBySlug(slug: string) {
 }
 export async function getCaseBySlug(slug: string) {
   return (await getCases()).find((c) => c.slug === slug) ?? null;
+}
+
+/** Presentations and books: built-in list (src/lib/resources.ts) plus files uploaded in /admin. */
+export async function getResources(): Promise<ResourceItem[]> {
+  const builtIn = staticResources();
+  if (!anon) return builtIn;
+  const { data } = await anon.from("resources").select("*").eq("status", "published").order("created_at", { ascending: false });
+  const uploaded: ResourceItem[] = (data ?? []).map((r) => ({
+    key: r.id,
+    kind: r.kind,
+    course: r.course ?? undefined,
+    title: r.title,
+    author: r.author,
+    year: r.year ?? undefined,
+    description: r.description ?? undefined,
+    source: r.source ?? undefined,
+    licence: r.licence ?? undefined,
+    format: r.file_path ? fileFormat(r.file_name, r.file_size) : undefined,
+    href: r.file_path ? anon.storage.from("resources").getPublicUrl(r.file_path).data.publicUrl : r.external_url,
+    isFile: Boolean(r.file_path),
+  }));
+  return [...uploaded, ...builtIn];
 }

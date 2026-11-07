@@ -1,7 +1,11 @@
 /**
  * Downloadable resources: presentations and books.
  *
- * HOW TO ADD A FILE
+ * EASIEST WAY: sign in as an editor or super administrator, open /admin > Resources and
+ * upload the file there (needs Supabase, see README). Uploaded files appear on /resources
+ * straight away.
+ *
+ * You can also add files in code:
  * 1. Put the file in  public/resources/presentations/  or  public/resources/books/
  *    (PDF works best; PowerPoint .pptx is fine too). Use a simple file name with no spaces,
  *    e.g. cpb-basics-2026.pdf
@@ -18,7 +22,17 @@
 
 export type ResourceKind = "presentation" | "book";
 
+/** Presentation categories: the CVP courses grouped by year of study. */
+export const COURSE_GROUPS = [
+  { year: "Year 1", courses: ["CVP 1", "CVP 2"] },
+  { year: "Year 2", courses: ["CVP 3", "CVP 4"] },
+] as const;
+export const COURSES = ["CVP 1", "CVP 2", "CVP 3", "CVP 4"] as const;
+export type Course = (typeof COURSES)[number] | "Other";
+
 export type Resource = {
+  /** Presentations only: which CVP course it belongs to. */
+  course?: Course;
   title: string;
   /** Speaker or author(s). */
   author: string;
@@ -40,6 +54,7 @@ export type Resource = {
 export const PRESENTATIONS: Resource[] = [
   // Example (remove the // to use):
   // {
+  //   course: "CVP 1",
   //   title: "Basics of Cardiopulmonary Bypass",
   //   author: "Alfred Luvakule",
   //   year: "2026",
@@ -62,3 +77,27 @@ export const BOOKS: Resource[] = [
   //   licence: "Open access (CC BY 4.0)",
   // },
 ];
+
+/** A resource as shown on the site, from this file or uploaded through /admin. */
+export type ResourceItem = Omit<Resource, "file" | "url"> & {
+  /** Stable id used in the download log. */
+  key: string;
+  kind: ResourceKind;
+  href: string;
+  /** true = file download, false = external link. */
+  isFile: boolean;
+};
+
+export function fileFormat(name?: string | null, size?: number | null) {
+  const ext = name?.split(".").pop()?.toUpperCase();
+  const mb = size ? (size / 1048576 < 1 ? "<1 MB" : `${Math.round(size / 1048576)} MB`) : null;
+  return [ext, mb].filter(Boolean).join(" · ") || undefined;
+}
+
+export function staticResources(): ResourceItem[] {
+  const map = (kind: ResourceKind) => (r: Resource): ResourceItem => {
+    const { file, url, ...rest } = r;
+    return { ...rest, kind, key: file ?? url ?? r.title, href: file ?? url ?? "#", isFile: Boolean(file) };
+  };
+  return [...PRESENTATIONS.map(map("presentation")), ...BOOKS.map(map("book"))];
+}
