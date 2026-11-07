@@ -1,4 +1,6 @@
 import { FlowLines } from "./FlowLines";
+import { SplitText } from "./SplitText";
+import { Reveal } from "./Reveal";
 
 export function PageHeader({
   eyebrow, title, intro, children,
@@ -8,9 +10,11 @@ export function PageHeader({
       <FlowLines className="absolute inset-0 h-full w-full opacity-40" />
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-teal-500/20 blur-3xl" />
       <div className="container-x relative">
-        <p className="eyebrow !text-teal-300">{eyebrow}</p>
-        <h1 className="mt-3 max-w-4xl font-display text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
-        {intro && <p className="mt-5 max-w-2xl text-lg text-navy-100">{intro}</p>}
+        <Reveal y={10}><p className="eyebrow !text-teal-300">{eyebrow}</p></Reveal>
+        <h1 className="mt-3 max-w-4xl font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+          <SplitText text={title} delay={0.1} />
+        </h1>
+        {intro && <Reveal delay={0.35} y={16}><p className="mt-5 max-w-2xl text-lg text-navy-100">{intro}</p></Reveal>}
         {children}
       </div>
     </section>
