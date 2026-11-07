@@ -4,6 +4,7 @@ import { BookOpen, GraduationCap, Presentation, Upload } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { DownloadButton } from "@/components/DownloadButton";
+import { AdminUploadLink } from "@/components/AdminUploadLink";
 import { getResources } from "@/lib/content";
 import { COURSE_GROUPS, COURSES, type ResourceItem } from "@/lib/resources";
 
@@ -76,6 +77,7 @@ export default async function ResourcesPage() {
             </a>
           ))}
         </nav>
+        <AdminUploadLink />
       </PageHeader>
 
       <section id="presentations" className="scroll-mt-20 py-16 sm:py-20">
