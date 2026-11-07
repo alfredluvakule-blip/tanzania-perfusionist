@@ -484,3 +484,63 @@ create policy "resources: editors upload" on storage.objects for insert to authe
 drop policy if exists "resources: editors delete" on storage.objects;
 create policy "resources: editors delete" on storage.objects for delete to authenticated
   using (bucket_id = 'resources' and public.is_editor());
+
+-- ---------------------------------------------------------------------
+-- Automatic Super Administrators by email.
+-- Add an address once in the SQL editor (it is not stored in this repo):
+--   insert into public.admin_emails (email) values ('you@example.com') on conflict do nothing;
+-- That account becomes Super Administrator as soon as its email is confirmed,
+-- whether it signs up before or after the address is added.
+-- ---------------------------------------------------------------------
+create table if not exists public.admin_emails (
+  email text primary key check (email = lower(email)),
+  created_at timestamptz not null default now()
+);
+alter table public.admin_emails enable row level security;
+drop policy if exists "super admins manage admin emails" on public.admin_emails;
+create policy "super admins manage admin emails" on public.admin_emails for all
+  using (public.is_super_admin()) with check (public.is_super_admin());
+
+create or replace function public.promote_listed_admin(uid uuid, addr text, confirmed timestamptz) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if confirmed is not null and exists (select 1 from public.admin_emails where email = lower(addr)) then
+    update public.profiles set role = 'super_admin' where id = uid and role <> 'super_admin';
+  end if;
+exception when others then
+  -- Never block a sign-up or sign-in because of this; the SQL editor can always promote by hand.
+  raise warning 'promote_listed_admin: %', sqlerrm;
+end $$;
+
+-- New accounts (runs after handle_new_user has created the profile).
+create or replace function public.auth_user_promote() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.promote_listed_admin(new.id, new.email, new.email_confirmed_at);
+  return new;
+end $$;
+drop trigger if exists on_auth_user_zz_promote on auth.users;
+create trigger on_auth_user_zz_promote after insert or update of email_confirmed_at on auth.users
+  for each row execute function public.auth_user_promote();
+
+-- Address added after the account already exists.
+create or replace function public.admin_email_lower() returns trigger
+language plpgsql as $$
+begin
+  new.email := lower(trim(new.email));
+  return new;
+end $$;
+drop trigger if exists admin_emails_lower on public.admin_emails;
+create trigger admin_emails_lower before insert or update on public.admin_emails
+  for each row execute function public.admin_email_lower();
+
+create or replace function public.admin_email_added() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.promote_listed_admin(u.id, u.email, u.email_confirmed_at)
+    from auth.users u where lower(u.email) = new.email;
+  return new;
+end $$;
+drop trigger if exists admin_emails_promote on public.admin_emails;
+create trigger admin_emails_promote after insert on public.admin_emails
+  for each row execute function public.admin_email_added();
