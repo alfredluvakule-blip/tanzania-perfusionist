@@ -14,5 +14,6 @@ export const NAV_MORE = [
   { href: "/duties", label: "Duties of a Perfusionist" },
   { href: "/events", label: "Events & Conferences" },
   { href: "/training", label: "Training & Careers" },
+  { href: "/perfcalc", label: "PerfCalc TZ app" },
   { href: "/contact", label: "Contact Us" },
 ] as const;

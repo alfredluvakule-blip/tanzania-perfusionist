@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, GraduationCap, Presentation, Upload } from "lucide-react";
+import { ArrowRight, BookOpen, Calculator, GraduationCap, Presentation, Upload } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { DownloadButton } from "@/components/DownloadButton";
@@ -82,6 +82,16 @@ export default async function ResourcesPage() {
 
       <section id="presentations" className="scroll-mt-20 py-16 sm:py-20">
         <div className="container-x">
+          <Reveal className="mb-12">
+            <Link href="/perfcalc" className="card group flex flex-col gap-4 p-5 transition hover:ring-teal-500/40 sm:flex-row sm:items-center">
+              <span className="grid h-12 w-12 flex-none place-items-center rounded-xl bg-pulse-500 text-white"><Calculator className="h-6 w-6" /></span>
+              <span className="flex-1">
+                <span className="block font-display text-lg font-semibold text-navy-900">PerfCalc TZ: free CPB calculator app</span>
+                <span className="mt-0.5 block text-sm text-navy-600">Flow, haemodilution, prime, drugs and cannula sizes. Install it on your phone; it works offline.</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700">Get the app <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+            </Link>
+          </Reveal>
           <Reveal className="mb-10 max-w-3xl">
             <h2 className="h-section">Presentations</h2>
             <p className="mt-3 text-navy-600">Lecture slides grouped by year of study and CVP course.</p>
