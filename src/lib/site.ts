@@ -50,3 +50,9 @@ export const SITE_URL = (
 
 /** Public contact email shown in the footer and on the Contact page. */
 export const CONTACT_EMAIL = "alfredluvakule@gmail.com";
+
+/**
+ * PerfCalc TZ: the free CPB calculator app, installable on phones and computers.
+ * After changing this address, run `npm run qr:perfcalc` to remake the QR codes.
+ */
+export const PERFCALC_URL = "https://alfredluvakule-blip.github.io/perfcalc/";

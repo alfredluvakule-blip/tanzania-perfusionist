@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "qr:perfcalc": "node scripts/make-perfcalc-qr.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
@@ -28,6 +29,7 @@
     "@types/react-dom": "^19.1.9",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.9.2"
   },

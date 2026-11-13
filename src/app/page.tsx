@@ -11,6 +11,7 @@ import { Timeline } from "@/components/Timeline";
 import { MediaGallery } from "@/components/MediaGallery";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Disclaimer } from "@/components/Disclaimer";
+import { PerfCalcPromo } from "@/components/PerfCalcPromo";
 import { getCases, getLegacy, getMedia, getMilestones, getNews, getPublications } from "@/lib/content";
 import { RESEARCH_CATEGORIES } from "@/lib/types";
 import { SITE_URL, SWAHILI_NAME } from "@/lib/site";
@@ -83,6 +84,9 @@ export default async function Home() {
           <DutiesOverview areas={DUTY_AREAS} linkBase="/duties" />
         </div>
       </section>
+
+      {/* PerfCalc TZ app: link and QR code to install */}
+      <PerfCalcPromo />
 
       {/* B. Latest news */}
       <section id="latest" className="container-x scroll-mt-20 py-20 sm:py-24">
