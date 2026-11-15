@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { Disclaimer } from "@/components/Disclaimer";
 import { ShareButtons } from "@/components/ShareButtons";
+import { PerfCalcShowcase } from "@/components/PerfCalcShowcase";
 import { PERFCALC_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -122,11 +123,19 @@ export default function PerfCalcPage() {
 
       <section className="bg-white py-16 sm:py-20">
         <div className="container-x">
-          <Reveal className="mb-10 max-w-3xl">
-            <p className="eyebrow">Ten tools, one patient</p>
-            <h2 className="h-section mt-2">What PerfCalc TZ calculates</h2>
-            <p className="mt-3 text-navy-600">Every result shows its formula, so it can be checked by hand.</p>
-          </Reveal>
+          <div className="mb-12 grid items-center gap-8 md:grid-cols-2 lg:gap-14">
+            <Reveal>
+              <p className="eyebrow">Ten tools, one patient</p>
+              <h2 className="h-section mt-2">What PerfCalc TZ calculates</h2>
+              <p className="mt-3 text-navy-600">
+                Built around the work at the pump: charting, preparing the lines and checking the circuit. Every result shows its formula, so it
+                can be checked by hand.
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <PerfCalcShowcase />
+            </Reveal>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {FEATURES.map(({ icon: Icon, t, d }, i) => (
               <Reveal key={t} delay={(i % 5) * 0.04} className="rounded-2xl bg-navy-50/60 p-5 ring-1 ring-navy-900/5">

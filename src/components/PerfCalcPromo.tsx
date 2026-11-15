@@ -3,10 +3,12 @@ import Link from "next/link";
 import { ArrowRight, ExternalLink, WifiOff } from "lucide-react";
 import { PERFCALC_URL } from "@/lib/site";
 import { Reveal } from "./Reveal";
+import { PerfCalcShowcase } from "./PerfCalcShowcase";
 
 /**
- * Home-page invitation to the PerfCalc TZ app. On a phone the buttons lead;
- * on wider screens a QR code lets visitors open it on their phone instead.
+ * Home-page invitation to the PerfCalc TZ app, with the team photos in
+ * motion. On a phone the buttons lead; on wider screens a QR code lets
+ * visitors open it on their phone instead.
  */
 export function PerfCalcPromo() {
   return (
@@ -14,7 +16,7 @@ export function PerfCalcPromo() {
       <Reveal className="relative overflow-hidden rounded-3xl bg-navy-950 p-8 text-white sm:p-12">
         <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-pulse-500/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-teal-500/20 blur-3xl" />
-        <div className="relative grid gap-10 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="relative grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:pb-4">
           <div>
             <div className="flex items-center gap-4">
               <Image src="/images/perfcalc-icon.svg" alt="" width={56} height={56} className="h-14 w-14 rounded-2xl" />
@@ -37,12 +39,18 @@ export function PerfCalcPromo() {
               </Link>
             </div>
           </div>
-          <figure className="hidden flex-col items-center md:flex">
-            <div className="rounded-2xl bg-white p-3 shadow-glow">
-              <Image src="/images/perfcalc-qr.svg" alt="QR code that opens the PerfCalc TZ app" width={200} height={200} className="h-48 w-48" unoptimized />
+          {/* Team photos in motion; on wider screens a QR card sits on the corner */}
+          <div className="relative order-first md:order-none md:w-[23rem] lg:w-[27rem]">
+            <PerfCalcShowcase />
+            <div className="absolute -bottom-7 -right-3 hidden items-center gap-3 rounded-2xl bg-white p-2.5 pr-4 text-navy-900 shadow-glow md:flex">
+              <Image src="/images/perfcalc-qr.svg" alt="QR code that opens the PerfCalc TZ app" width={120} height={120} className="h-28 w-28" unoptimized />
+              <p className="text-sm font-semibold leading-snug">
+                Scan to
+                <br />
+                install
+              </p>
             </div>
-            <figcaption className="mt-3 text-center text-sm text-navy-200">Scan with your phone camera</figcaption>
-          </figure>
+          </div>
         </div>
       </Reveal>
     </section>
